@@ -1,0 +1,89 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.gsgtech.gapp</groupId>
+  <artifactId>gsg-spring-social-intuit</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Libreria Spring Social Intuit</name>
+  <packaging>jar</packaging>
+  <prerequisites>
+		<maven>3.0.0</maven>
+  </prerequisites>
+  <inceptionYear>2016</inceptionYear>
+	
+	<organization>
+		<name>GSG Tech</name>
+		<url>http://www.gsgtech.com/</url>
+	</organization>
+	
+	<developers>
+		<developer>
+			<id>imedina</id>
+			<name>Ildemaro Medina</name>
+			<email>imedina at gsgtech.com</email>
+			<organization>GSG Tech</organization>
+			<organizationUrl>http://www.gsgtech.com/</organizationUrl>
+			<properties>
+				<mobile>+584166557376</mobile>
+				<email-personal>ildemaro at gmail.com</email-personal>
+			</properties>
+			<roles>
+				<role>Developer Micro-Service</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<properties>
+		<build.timestamp>${maven.build.timestamp}</build.timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd hh:mm a</maven.build.timestamp.format>
+		<java.version>1.8</java.version>
+		<spring.social.version>1.1.0.M4</spring.social.version>
+		<jackson.version>2.2.2</jackson.version>
+		<spring.security.crypto.version>3.2.0.RELEASE</spring.security.crypto.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>			
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-core</artifactId>
+			<version>${spring.social.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-config</artifactId>
+			<version>${spring.social.version}</version>		
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.social</groupId>
+			<artifactId>spring-social-security</artifactId>
+			<version>${spring.social.version}</version>		
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>		
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>		
+		</dependency>
+		
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>${jackson.version}</version>		
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-crypto</artifactId>
+			<version>${spring.security.crypto.version}</version>
+		</dependency>		
+	
+	</dependencies>
+		
+</project>
