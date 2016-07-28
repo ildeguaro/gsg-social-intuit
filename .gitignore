@@ -1,1 +1,58 @@
-/target/
+######## Eclipse ########
+.classpath
+.project
+.settings/
+.springBeans
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+.buildpath
+.factorypath
+
+######## Intellij ########
+.idea/
+*.iml
+*.iws
+*.ipr
+*.ids
+*.orig
+
+######## Maven ########
+log/
+target/
+git.properties
+
+######## Gradle ########
+.gradle/
+
+######## Directorios ########
+build/
+bin/
+spring_loaded/
+deploy/
+
+######## Windows ########
+Thumbs.db
+Desktop.ini
+
+######## Mac OSX ########
+.DS_Store
+
+######## Logs ########
+*.log
+
+######## Packages ########
+*.jar
+*.war
+*.ear
+*.db
+
+######## UI ########
+.bower_cache/
+.tmp/
+bower_components/
+node/
+node_modules/
+.sass-cache/
