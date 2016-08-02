@@ -11,7 +11,7 @@ public interface Intuit extends ApiBinding {
 	
 	AccountOperations accountOperations();
 	
-	CompanyMetaDataOperations companyMetaDataOperations();
+	CompanyOperations companyMetaDataOperations();
 	
 	CustomerOperations customerOperations();
 	

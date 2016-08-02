@@ -9,9 +9,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import com.intuit.ipp.data.Account;
 import com.intuit.sb.cdm.qbo.SearchResults;
-import com.intuit.sb.cdm.v2.Account;
-import com.intuit.sb.cdm.v2.Accounts;
 import com.intuit.sb.cdm.v2.QboAccountDetailTypeEnum;
 
 

@@ -2,7 +2,7 @@ package org.springframework.social.intuit.api;
 
 import java.io.Serializable;
 
-import com.intuit.platform.api.v1.User;
+import com.intuit.ia.connection.User;
 
 
 /**
@@ -14,7 +14,6 @@ import com.intuit.platform.api.v1.User;
 public class IntuitProfile implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private String name;
 	private String firstName;
 	private String lastName;
 	private String emailAddress;
@@ -22,17 +21,13 @@ public class IntuitProfile implements Serializable {
 	public IntuitProfile() {
 	}
 
-	public IntuitProfile(User user) {
-		name = user.getScreenName();
+	public IntuitProfile(User user) {		
 		firstName = user.getFirstName();
 		lastName = user.getLastName();
 		emailAddress = user.getEmailAddress();
 	}
 
-	public String getName() {
-		return name;
-	}
-
+	
 	public String getFirstName() {
 		return firstName;
 	}

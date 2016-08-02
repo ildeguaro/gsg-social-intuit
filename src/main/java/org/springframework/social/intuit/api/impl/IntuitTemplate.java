@@ -7,7 +7,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.xml.Jaxb2RootElementHttpMessageConverter;
 import org.springframework.social.intuit.api.AccountOperations;
-import org.springframework.social.intuit.api.CompanyMetaDataOperations;
+import org.springframework.social.intuit.api.CompanyOperations;
 import org.springframework.social.intuit.api.CustomerOperations;
 import org.springframework.social.intuit.api.Intuit;
 import org.springframework.social.intuit.api.InvoiceOperations;
@@ -20,7 +20,7 @@ import org.springframework.social.oauth1.AbstractOAuth1ApiBinding;
 public class IntuitTemplate extends AbstractOAuth1ApiBinding implements Intuit {
 	
 	private AccountOperations accountOperations;
-	private CompanyMetaDataOperations companyMetaDataOperations;
+	private CompanyOperations companyMetaDataOperations;
 	private CustomerOperations customerOperations;
 	private UserOperations userOperations;
 	private PaymentOperations paymentOperations;
@@ -58,7 +58,7 @@ public class IntuitTemplate extends AbstractOAuth1ApiBinding implements Intuit {
 		}
 	}
 
-	public CompanyMetaDataOperations companyMetaDataOperations() {
+	public CompanyOperations companyMetaDataOperations() {
 		initSubApis();
 		return companyMetaDataOperations;
 	}

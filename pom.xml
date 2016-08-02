@@ -42,6 +42,15 @@
 		<spring.security.crypto.version>3.2.0.RELEASE</spring.security.crypto.version>
 	</properties>
 	
+	
+	<repositories>
+	    <repository>
+	    <!-- Se agregan los jars de la cuenta developer de intuit -->
+	        <id>localrepository</id>       
+	        <url>file:${basedir}/local-dependencies</url>
+	    </repository>
+  </repositories>
+	
 	<dependencies>
 		<dependency>			
 			<groupId>org.springframework.social</groupId>
@@ -83,8 +92,114 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-crypto</artifactId>
 			<version>${spring.security.crypto.version}</version>
-		</dependency>		
+		</dependency>	
+		
+		<dependency>
+			<groupId>com.intuit</groupId>
+			<artifactId>ipp-java-devkit</artifactId>
+			<version>2.0.13</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.intuit.code.devkit</groupId>
+			<artifactId>ipp-java-qbhelper</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+		
+		
+		<dependency>
+		    <groupId>ipp.v3</groupId>
+		    <artifactId>java-data</artifactId>
+		    <version>2.5.0</version>
+		    <scope>system</scope>
+    		<systemPath>${basedir}/local-dependencies/ipp.v3/java-data/2.5.0/java-data.jar</systemPath>    		
+		</dependency>
+		
+		<dependency>
+		    <groupId>ipp.v3</groupId>
+		    <artifactId>java-devkit</artifactId>
+		    <version>2.5.0</version>
+		    <scope>system</scope>
+    		<systemPath>${basedir}/local-dependencies/ipp.v3/java-devkit/2.5.0/java-devkit.jar</systemPath> 	
+		</dependency>
+		<dependency>
+		    <groupId>ipp</groupId>
+		    <artifactId>java-qbapihelper</artifactId>
+		    <version>1.2.1</version>
+		    <scope>system</scope>
+    		<systemPath>${basedir}/local-dependencies/ipp/java-qbapihelper/1.2.1/java-qbapihelper.jar</systemPath> 	
+		</dependency>	
 	
 	</dependencies>
+	 <build>
+        
+      <finalName>${project.artifactId}</finalName>
+        
+        <plugins>               
+           
+	 		<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <file>${basedir}/local-dependencies/ipp.v3/java-data/2.5.0/java-data.jar</file>
+                    <groupId>ipp.v3</groupId>
+                    <artifactId>java-data</artifactId>
+                    <version>2.5.0</version>
+                    <packaging>jar</packaging>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                    <file>${basedir}/local-dependencies/ipp/java-qbapihelper/1.2.1/java-qbapihelper.jar</file>
+                    <groupId>ipp.v3</groupId>
+                    <artifactId>java-devkit</artifactId>
+                    <version>2.5.0</version>
+                    <packaging>jar</packaging>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <configuration>
+                	<file>${basedir}/local-dependencies/ipp/java-qbapihelper/1.2.1/java-qbapihelper.jar</file> 
+                    <groupId>ipp</groupId>
+		    		<artifactId>java-qbapihelper</artifactId>
+		    		<version>1.2.1</version>    				
+                    <packaging>jar</packaging>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>none</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 		
 </project>
