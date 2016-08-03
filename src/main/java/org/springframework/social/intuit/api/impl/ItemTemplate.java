@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.ItemOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.sb.cdm.v2.Item;
-import com.intuit.sb.cdm.v2.Items;
-import com.intuit.sb.cdm.qbo.SearchResults;
+import com.intuit.ipp.data.Item;
+
 
 public class ItemTemplate implements ItemOperations {
 	
@@ -30,18 +30,27 @@ public class ItemTemplate implements ItemOperations {
 		return restTemplate.getForObject("{baseURL}/resource/item/v2/{companyId}/{itemID}", Item.class, baseUrl, companyId, itemId);
 	}
 
+//	public List<Item> getItems() {
+//		requireAuthorization();		
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/items/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((Items)response.getCdmCollections()).getItems();
+//		}
+//		return null;
+//	}
+	
 	public List<Item> getItems() {
 		requireAuthorization();		
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/items/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Items)response.getCdmCollections()).getItems();
+			return ((List<Item>)response.getCdmCollections());
 		}
 		return null;
 	}
 
 	public Item update(Item item) {
 		requireAuthorization();
-		return restTemplate.postForObject("{baseURL}/resource/item/v2/{companyId}/{itemID}", item, Item.class, baseUrl, companyId, item.getId().getValue());
+		return restTemplate.postForObject("{baseURL}/resource/item/v2/{companyId}/{itemID}", item, Item.class, baseUrl, companyId, item.getId());
 	}
 
 	public Item create(Item item) {
@@ -51,7 +60,7 @@ public class ItemTemplate implements ItemOperations {
 
 	public Item save(Item item) {
 		requireAuthorization();
-		if(item.getId() != null && item.getId().getValue() != null){
+		if(item.getId() != null && item.getId() != null){
 			return update(item);
 		}
 		else {
@@ -61,7 +70,7 @@ public class ItemTemplate implements ItemOperations {
 
 	public boolean delete(Item item) {
 		requireAuthorization();
-		Item response = restTemplate.postForObject("{baseURL}/resource/item/v2/{companyId}/{itemID}?methodx=delete", buildDelete(item), Item.class, baseUrl, companyId, item.getId().getValue());
+		Item response = restTemplate.postForObject("{baseURL}/resource/item/v2/{companyId}/{itemID}?methodx=delete", buildDelete(item), Item.class, baseUrl, companyId, item.getId());
 		return (response.getId() == null);
 	}
 	

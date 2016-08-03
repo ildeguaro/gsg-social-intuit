@@ -1,5 +1,6 @@
 package org.springframework.social.intuit.security;
 
+
 import org.springframework.social.connect.support.OAuth1ConnectionFactory;
 import org.springframework.social.intuit.api.Intuit;
 import org.springframework.social.intuit.connect.IntuitConnectionFactory;

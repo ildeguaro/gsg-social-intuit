@@ -46,8 +46,8 @@ public class IntuitTemplate extends AbstractOAuth1ApiBinding implements Intuit {
 
 	private void initSubApis() {
 		if(!isInitialized()){
-			companyMetaDataOperations = new CompanyMetaDataTemplate(isAuthorized(), getRestTemplate());
-			String companyId = companyMetaDataOperations.getCompanyMetaData().getExternalRealmId();
+			companyMetaDataOperations = new CompanyTemplate(isAuthorized(), getRestTemplate());
+			String companyId = companyMetaDataOperations.getCompany().getId();
 			userOperations = new UserTemplate(isAuthorized(), getRestTemplate());
 			accountOperations = new AccountTemplate(isAuthorized(), getRestTemplate(), companyId, BASE_URL);
 			customerOperations = new CustomerTemplate(isAuthorized(), getRestTemplate(), companyId, BASE_URL);

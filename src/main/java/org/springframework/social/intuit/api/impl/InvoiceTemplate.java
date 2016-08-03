@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.InvoiceOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.sb.cdm.v2.Customer;
-import com.intuit.sb.cdm.v2.Invoice;
-import com.intuit.sb.cdm.v2.Invoices;
-import com.intuit.sb.cdm.qbo.SearchResults;
+import com.intuit.ipp.data.Customer;
+import com.intuit.ipp.data.Invoice;
+
 
 public class InvoiceTemplate implements InvoiceOperations {
 	
@@ -32,29 +32,49 @@ public class InvoiceTemplate implements InvoiceOperations {
 		return restTemplate.getForObject("{baseURL}/resource/invoice/v2/{companyId}/{invoiceId}", Invoice.class, baseUrl, companyId, id);
 	}
 
+//	public List<Invoice> getInvoices() {
+//		requireAuthorization();		
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/invoices/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((Invoices)response.getCdmCollections()).getInvoices();
+//		}
+//		return null;
+//	}
+	
 	public List<Invoice> getInvoices() {
 		requireAuthorization();		
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/invoices/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Invoices)response.getCdmCollections()).getInvoices();
+			return ((List<Invoice>)response.getCdmCollections());
 		}
 		return null;
 	}
 
+//	public List<Invoice> getInvoices(Customer customer) {
+//		requireAuthorization();
+//		MultiValueMap<String, String> criteria = new LinkedMultiValueMap<String, String>();
+//		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId());
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/invoices/v2/{companyId}", criteria, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((Invoices)response.getCdmCollections()).getInvoices();
+//		}
+//		return null;
+//	}
+	
 	public List<Invoice> getInvoices(Customer customer) {
 		requireAuthorization();
 		MultiValueMap<String, String> criteria = new LinkedMultiValueMap<String, String>();
-		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId().getValue());
+		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId());
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/invoices/v2/{companyId}", criteria, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Invoices)response.getCdmCollections()).getInvoices();
+			return ((List<Invoice>)response.getCdmCollections());
 		}
 		return null;
 	}
 
 	public Invoice update(Invoice invoice) {
 		requireAuthorization();
-		return restTemplate.postForObject("{baseURL}/resource/invoice/v2/{companyId}/{customerID}", invoice, Invoice.class, baseUrl, companyId, invoice.getId().getValue());
+		return restTemplate.postForObject("{baseURL}/resource/invoice/v2/{companyId}/{customerID}", invoice, Invoice.class, baseUrl, companyId, invoice.getId());
 	}
 
 	public Invoice create(Invoice invoice) {
@@ -64,7 +84,7 @@ public class InvoiceTemplate implements InvoiceOperations {
 
 	public Invoice save(Invoice invoice) {
 		requireAuthorization();
-		if(invoice.getId() != null && invoice.getId().getValue() != null){
+		if(invoice.getId() != null && invoice.getId() != null){
 			return update(invoice);
 		}
 		else {
@@ -74,7 +94,7 @@ public class InvoiceTemplate implements InvoiceOperations {
 
 	public boolean delete(Invoice invoice) {
 		requireAuthorization();
-		Invoice response = restTemplate.postForObject("{baseURL}/resource/invoice/v2/{companyId}/{customerID}?methodx=delete", buildDelete(invoice), Invoice.class, baseUrl, companyId, invoice.getId().getValue());
+		Invoice response = restTemplate.postForObject("{baseURL}/resource/invoice/v2/{companyId}/{customerID}?methodx=delete", buildDelete(invoice), Invoice.class, baseUrl, companyId, invoice.getId());
 		return (response.getId() == null);
 	}
 

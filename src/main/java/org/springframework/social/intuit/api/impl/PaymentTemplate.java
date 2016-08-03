@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.PaymentOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.sb.cdm.qbo.SearchResults;
-import com.intuit.sb.cdm.v2.Customer;
-import com.intuit.sb.cdm.v2.Payment;
-import com.intuit.sb.cdm.v2.Payments;
+import com.intuit.ipp.data.Customer;
+import com.intuit.ipp.data.Payment;
+
 
 public class PaymentTemplate implements PaymentOperations {
 	
@@ -32,30 +32,51 @@ public class PaymentTemplate implements PaymentOperations {
 		return restTemplate.getForObject("{baseURL}/resource/payment/v2/{companyId}/{paymentId}", Payment.class, baseUrl, companyId, id);
 	}
 
+//	public List<Payment> getPayments() {
+//		requireAuthorization();		
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payments/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((Payments)response.getCdmCollections()).getPayments();
+//		}
+//		return null;
+//	}
+	
 	public List<Payment> getPayments() {
 		requireAuthorization();		
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payments/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Payments)response.getCdmCollections()).getPayments();
+			return ((List<Payment>)response.getCdmCollections());
 		}
 		return null;
 	}
 
+//	public List<Payment> getPayments(Customer customer) {
+//		requireAuthorization();
+//		MultiValueMap<String, String> criteria = new LinkedMultiValueMap<String, String>();
+//		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId().getValue());
+//		criteria.add("Sort", "TxnDate NewestToOldest");
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payments/v2/{companyId}", criteria, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((Payments)response.getCdmCollections()).getPayments();
+//		}
+//		return null;
+//	}
+	
 	public List<Payment> getPayments(Customer customer) {
 		requireAuthorization();
 		MultiValueMap<String, String> criteria = new LinkedMultiValueMap<String, String>();
-		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId().getValue());
+		criteria.add("Filter", "CustomerId :EQUALS: " + customer.getId());
 		criteria.add("Sort", "TxnDate NewestToOldest");
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payments/v2/{companyId}", criteria, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Payments)response.getCdmCollections()).getPayments();
+			return ((List<Payment>)response.getCdmCollections());
 		}
 		return null;
 	}
 
 	public Payment update(Payment payment) {
 		requireAuthorization();
-		return restTemplate.postForObject("{baseURL}/resource/payment/v2/{companyId}/{paymentId}", payment, Payment.class, baseUrl, companyId, payment.getId().getValue());
+		return restTemplate.postForObject("{baseURL}/resource/payment/v2/{companyId}/{paymentId}", payment, Payment.class, baseUrl, companyId, payment.getId());
 	}
 
 	public Payment create(Payment payment) {
@@ -65,7 +86,7 @@ public class PaymentTemplate implements PaymentOperations {
 
 	public Payment save(Payment payload) {
 		requireAuthorization();
-		if(payload.getId() != null && payload.getId().getValue() != null){
+		if(payload.getId() != null && payload.getId() != null){
 			return update(payload);
 		}
 		else {
@@ -74,7 +95,7 @@ public class PaymentTemplate implements PaymentOperations {
 	}
 	public boolean delete(Payment payment) {
 		requireAuthorization();
-		Payment response = restTemplate.postForObject("{baseURL}/resource/payment/v2/{companyId}/{paymentId}?methodx=delete", buildDelete(payment), Payment.class, baseUrl, companyId, payment.getId().getValue());
+		Payment response = restTemplate.postForObject("{baseURL}/resource/payment/v2/{companyId}/{paymentId}?methodx=delete", buildDelete(payment), Payment.class, baseUrl, companyId, payment.getId());
 		return (response.getId() == null);
 	}
 

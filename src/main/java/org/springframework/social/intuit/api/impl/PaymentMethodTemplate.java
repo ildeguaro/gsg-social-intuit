@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.PaymentMethodOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.sb.cdm.v2.PaymentMethod;
-import com.intuit.sb.cdm.v2.PaymentMethods;
-import com.intuit.sb.cdm.qbo.SearchResults;
+import com.intuit.ipp.data.PaymentMethod;
+
 
 public class PaymentMethodTemplate implements PaymentMethodOperations {
 
@@ -29,15 +29,23 @@ public class PaymentMethodTemplate implements PaymentMethodOperations {
 		return restTemplate.getForObject("{baseURL}/resource/payment-method/v2/{companyId}/{paymentMethodId}", PaymentMethod.class, baseUrl, companyId, id);
 	}
 
+//	public List<PaymentMethod> getPaymentMethods() {
+//		requireAuthorization();		
+//		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payment-methods/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
+//		if(response != null){
+//			return ((PaymentMethods)response.getCdmCollections()).getPaymentMethods();
+//		}
+//		return null;
+//	}
+
 	public List<PaymentMethod> getPaymentMethods() {
 		requireAuthorization();		
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/payment-methods/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((PaymentMethods)response.getCdmCollections()).getPaymentMethods();
+			return ((List<PaymentMethod> )response.getCdmCollections());
 		}
 		return null;
 	}
-
 	protected void requireAuthorization() {
 		if (!isAuthorized) {
 			throw new MissingAuthorizationException("intuit");

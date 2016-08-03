@@ -4,11 +4,11 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.CustomerOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.sb.cdm.v2.Customer;
-import com.intuit.sb.cdm.v2.Customers;
-import com.intuit.sb.cdm.qbo.SearchResults;
+import com.intuit.ipp.data.Customer;
+
 
 public class CustomerTemplate implements CustomerOperations {
 	
@@ -30,18 +30,27 @@ public class CustomerTemplate implements CustomerOperations {
 		return restTemplate.getForObject("{baseURL}/resource/customer/v2/{companyId}/{customerID}", Customer.class, baseUrl, companyId, customerId);
 	}
 
+	/*public List<Customer> getCustomers() {
+		requireAuthorization();		
+		SearchResults response = restTemplate.postForObject("{baseURL}/resource/customers/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
+		if(response != null){
+			return ((Customers) response.getCdmCollections()).getCustomers();
+		}
+		return null;
+	}*/
+	
 	public List<Customer> getCustomers() {
 		requireAuthorization();		
 		SearchResults response = restTemplate.postForObject("{baseURL}/resource/customers/v2/{companyId}", null, SearchResults.class, baseUrl, companyId);
 		if(response != null){
-			return ((Customers)response.getCdmCollections()).getCustomers();
+			return ((List<Customer>) response.getCdmCollections());
 		}
 		return null;
 	}
 
 	public Customer update(Customer customer) {
 		requireAuthorization();
-		return restTemplate.postForObject("{baseURL}/resource/customer/v2/{companyId}/{customerID}", customer, Customer.class, baseUrl, companyId, customer.getId().getValue());
+		return restTemplate.postForObject("{baseURL}/resource/customer/v2/{companyId}/{customerID}", customer, Customer.class, baseUrl, companyId, customer.getId());
 	}
 
 	public Customer create(Customer customer) {
@@ -51,7 +60,7 @@ public class CustomerTemplate implements CustomerOperations {
 
 	public Customer save(Customer customer) {
 		requireAuthorization();
-		if(customer.getId() != null && customer.getId().getValue() != null){
+		if(customer.getId() != null && customer.getId() != null){
 			return update(customer);
 		}
 		else {
@@ -61,7 +70,7 @@ public class CustomerTemplate implements CustomerOperations {
 	
 	public boolean delete(Customer customer) {
 		requireAuthorization();
-		Customer response = restTemplate.postForObject("{baseURL}/resource/customer/v2/{companyId}/{customerID}?methodx=delete", buildDelete(customer), Customer.class, baseUrl, companyId, customer.getId().getValue());
+		Customer response = restTemplate.postForObject("{baseURL}/resource/customer/v2/{companyId}/{customerID}?methodx=delete", buildDelete(customer), Customer.class, baseUrl, companyId, customer.getId());
 		return (response.getId() == null);
 	}
 	

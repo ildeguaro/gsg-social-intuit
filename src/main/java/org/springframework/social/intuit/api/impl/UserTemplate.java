@@ -3,9 +3,12 @@ package org.springframework.social.intuit.api.impl;
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.IntuitProfile;
 import org.springframework.social.intuit.api.UserOperations;
+import org.springframework.social.intuit.domain.UserResponse;
 import org.springframework.web.client.RestTemplate;
 
-import com.intuit.platform.api.v1.UserResponse;
+import com.intuit.ipp.data.EmailAddress;
+
+//import com.intuit.platform.api.v1.UserResponse;
 
 
 public class UserTemplate implements UserOperations {
@@ -23,9 +26,9 @@ public class UserTemplate implements UserOperations {
 		UserResponse userResponse = restTemplate.getForObject("https://appcenter.intuit.com/api/v1/user/current", UserResponse.class);
 		return new IntuitProfile(userResponse.getUser());
 	}
-
-	public String getName() {
-		return getUserProfile().getName();
+	
+	public String getDisplayName() {		
+		return getUserProfile().getDisplayName();
 	}
 	
 	public String getFirstName() {
@@ -36,7 +39,7 @@ public class UserTemplate implements UserOperations {
 		return getUserProfile().getLastName();
 	}
 
-	public String getEmailAddress() {
+	public EmailAddress getEmailAddress() {
 		return getUserProfile().getEmailAddress();
 	}
 

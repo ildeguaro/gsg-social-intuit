@@ -5,13 +5,14 @@ import java.util.List;
 
 import org.springframework.social.MissingAuthorizationException;
 import org.springframework.social.intuit.api.AccountOperations;
+import org.springframework.social.intuit.domain.SearchResults;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.intuit.ipp.data.Account;
-import com.intuit.sb.cdm.qbo.SearchResults;
-import com.intuit.sb.cdm.v2.QboAccountDetailTypeEnum;
+//import com.intuit.sb.cdm.qbo.SearchResults;
+//import com.intuit.sb.cdm.v2.QboAccountDetailTypeEnum;
 
 
 public class AccountTemplate implements AccountOperations {
@@ -36,6 +37,11 @@ public class AccountTemplate implements AccountOperations {
 	}
 	
 	public List<Account> getBankAccounts() {
+		return null;
+		
+	}
+	
+	/*public List<Account> getBankAccounts() {
 		List<Account> bankAccounts = new ArrayList<Account>();
 		List<Account> accounts = getAccounts();
 		for(Account account : accounts){
@@ -50,7 +56,7 @@ public class AccountTemplate implements AccountOperations {
 			}
 		}
 		return bankAccounts;
-	}
+	}*/
 
 	public List<Account> getAccounts() {
 		requireAuthorization();
@@ -63,7 +69,8 @@ public class AccountTemplate implements AccountOperations {
 			criteria.add("PageNum", pageNum.toString());
 			SearchResults response = restTemplate.postForObject("{baseURL}/resource/accounts/v2/{companyId}", criteria, SearchResults.class, baseUrl, companyId);
 			if(response == null) break;
-			List<Account> returnedAccounts = ((Accounts)response.getCdmCollections()).getAccounts();
+			//List<Account> returnedAccounts = ((Accounts) response.getCdmCollections()).getAccounts();
+			List<Account> returnedAccounts = ((List<Account>) response.getCdmCollections());
 			if(pageSize != returnedAccounts.size()) hasMore = false;
 			accounts.addAll(returnedAccounts);
 			pageNum = response.getCurrentPage() + 1;
@@ -73,7 +80,7 @@ public class AccountTemplate implements AccountOperations {
 
 	public Account update(Account account) {
 		requireAuthorization();
-		return restTemplate.postForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}", account, Account.class, baseUrl, companyId, account.getId().getValue());
+		return restTemplate.postForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}", account, Account.class, baseUrl, companyId, account.getId());
 	}
 
 	public Account create(Account account) {
@@ -83,7 +90,7 @@ public class AccountTemplate implements AccountOperations {
 
 	public Account save(Account account) {
 		requireAuthorization();
-		if(account.getId() != null && account.getId().getValue() != null){
+		if(account.getId() != null && account.getId() != null){
 			return update(account);
 		}
 		else {
@@ -93,7 +100,7 @@ public class AccountTemplate implements AccountOperations {
 	
 	public boolean delete(Account account) {
 		requireAuthorization();
-		Account response = restTemplate.postForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}?methodx=delete", buildDelete(account), Account.class, baseUrl, companyId, account.getId().getValue());
+		Account response = restTemplate.postForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}?methodx=delete", buildDelete(account), Account.class, baseUrl, companyId, account.getId());
 		return (response.getId() == null);
 	}
 	
