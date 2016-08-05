@@ -33,7 +33,9 @@ public class AccountTemplate implements AccountOperations {
 
 	public Account getAccount(Long accountId) {
 		requireAuthorization();
-		return restTemplate.getForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}", Account.class, baseUrl, companyId, accountId);
+		return restTemplate.getForObject("baseURL/v3/company/companyID/resourceName/"+accountId, Account.class, baseUrl, companyId, accountId);
+	
+		//return restTemplate.getForObject("{baseURL}/resource/account/v2/{companyId}/{accountID}", Account.class, baseUrl, companyId, accountId);
 	}
 	
 	public List<Account> getBankAccounts() {
